@@ -13,19 +13,13 @@ transactionsRouter.get('/', async (request, response) => {
   const transactions = await transactionsRepository.find({
     relations: ['category'],
   });
-  const balance = await transactionsRepository.getBalance();
+  const balance = await transactionsRepository.getBalance(transactions);
 
   return response.json({ transactions, balance });
 });
 
 transactionsRouter.post('/', async (request, response) => {
   const { title, value, type, category } = request.body;
-
-  // const balance = transactionsRepository.getBalance();
-
-  // if (type === 'outcome' && value > balance.total) {
-  //   throw new Error('Insufficient funds!');
-  // }
 
   const createTransaction = new CreateTransactionService();
 
